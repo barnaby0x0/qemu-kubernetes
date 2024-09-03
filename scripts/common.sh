@@ -220,8 +220,13 @@ sudo systemctl enable --now kubelet
 # Enable resolvconf service
 sudo systemctl enable --now systemd-resolved
 
-cat << EOF | tee -a /home/vagrant/.bashrc
+
+cat << EOF | tee -a /home/vagrant/.profile
 alias k='kubectl '
+source /usr/share/bash-completion/bash_completion
+echo 'source <(kubectl completion bash)' >>~/.bashrc
+echo 'alias k=kubectl' >>~/.bashrc
+echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 EOF
 
 #sudo apt-get update -y

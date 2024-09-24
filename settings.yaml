@@ -20,3 +20,4 @@ software:
   box: debian/bullseye64
   calico: 3.28.1
   kubernetes: 1.30.0-*
+  k9s: v0.32.5

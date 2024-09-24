@@ -48,3 +48,7 @@ EOF
 
 # Install Metrics Server
 kubectl apply -f https://raw.githubusercontent.com/techiescamp/kubeadm-scripts/main/manifests/metrics-server.yaml
+
+# Install k9s
+sudo wget -O /opt/k9s.deb "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_linux_amd64.deb" && \
+  sudo apt-get -y install -f /opt/k9s.deb

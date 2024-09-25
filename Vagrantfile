@@ -9,6 +9,13 @@ IP_NW = IP_SECTIONS.captures[0]
 IP_START = Integer(IP_SECTIONS.captures[1])
 NUM_WORKER_NODES = settings["nodes"]["workers"]["count"]
 
+$init_services_script = <<-'SCRIPT'
+sudo cp /vagrant/services/dashboard-bridge.service /etc/systemd/system && \
+  sudo systemctl daemon-reload && \
+  sudo systemctl enable --now dashboard-bridge.service
+SCRIPT
+
+
 Vagrant.configure("2") do |config|
   #config.vm.provider :libvirt do |libvirt|
   #  libvirt.storage_pool_name = "local" # Don't forget to create the pool first via virsh
@@ -38,15 +45,19 @@ Vagrant.configure("2") do |config|
     master.vm.hostname = "master-node"
     master.vm.network "private_network", ip: settings["network"]["control_ip"]
     master.vm.network "forwarded_port", guest: 6443, host: 6443
+    master.vm.network "forwarded_port", guest: 8443, host: 8443
     master.vm.provider "libvirt" do |libvirt|
       libvirt.memory = settings["nodes"]["control"]["memory"]
       libvirt.cpus = settings["nodes"]["control"]["cpu"]
     end
 
+    #master.vm.provision "file", source: "./services/dashboard-bridge.service", destination: "/etc/systemd/system/dashboard-bridge.service"
+    master.vm.provision "shell", inline: $init_services_script
     master.vm.provision "shell",
       env: {
         "CALICO_VERSION" => settings["software"]["calico"],
         "K9S_VERSION" => settings["software"]["k9s"],
+        "HELM_VERSION" => settings["software"]["helm"],
         "CONTROL_IP" => settings["network"]["control_ip"],
         "POD_CIDR" => settings["network"]["pod_cidr"],
         "SERVICE_CIDR" => settings["network"]["service_cidr"]

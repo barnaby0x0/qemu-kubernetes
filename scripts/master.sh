@@ -46,9 +46,25 @@ sudo cp -i $config_path/config /home/vagrant/.kube/
 sudo chown 1000:1000 /home/vagrant/.kube/config
 EOF
 
+
 # Install Metrics Server
 kubectl apply -f https://raw.githubusercontent.com/techiescamp/kubeadm-scripts/main/manifests/metrics-server.yaml
 
 # Install k9s
 sudo wget -O /opt/k9s.deb "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_linux_amd64.deb" && \
   sudo apt-get -y install -f /opt/k9s.deb
+
+# Install helm
+(
+cd $HOME;
+wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
+  tar xzf helm-${HELM_VERSION}-linux-amd64.tar.gz && \
+  sudo mv linux-amd64/helm /bin/helm && \
+  rm -fr helm-${HELM_VERSION}-linux-amd64.tar.gz linux-amd64
+)
+# Install socat
+sudo apt-get install -y socat
+
+# Install Kubernetes dashboard
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard

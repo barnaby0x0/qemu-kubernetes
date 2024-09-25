@@ -9,7 +9,7 @@ get_latest_release() {
 
 # System upgrade
 sudo apt-get update && apt-get upgrade -y
-sudo apt-get install -y curl net-tools vim
+sudo apt-get install -y curl net-tools vim netcat-openbsd
 
 
 ## DNS Setting

@@ -21,3 +21,4 @@ software:
   calico: 3.28.1
   kubernetes: 1.30.0-*
   k9s: v0.32.5
+  helm: v3.16.1

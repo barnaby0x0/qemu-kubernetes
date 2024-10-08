@@ -192,7 +192,8 @@ sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 
 # Determine version of Kubernetes (instructions may vary)
 # This is tested with v1.30.
-K8S_VERS="v1.30"
+#K8S_VERS="v1.30"
+K8S_VERS="v${KUBERNETES_VERSION_SHORT}"
 
 # variables to make code readible
 K8S_GPG_KEY_PATH="/etc/apt/keyrings/kubernetes-apt-keyring.gpg"

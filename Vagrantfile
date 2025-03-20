@@ -17,9 +17,9 @@ SCRIPT
 
 
 Vagrant.configure("2") do |config|
-  #config.vm.provider :libvirt do |libvirt|
-  #  libvirt.storage_pool_name = "local" # Don't forget to create the pool first via virsh
-  #end
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.storage_pool_name = "vmdisks" # Don't forget to create the pool first via virsh
+  end
 
   config.vm.provision "shell", env: { "IP_NW" => IP_NW, "IP_START" => IP_START, "NUM_WORKER_NODES" => NUM_WORKER_NODES }, inline: <<-SHELL
     echo "$IP_NW$((IP_START)) controlplane" >> /etc/hosts

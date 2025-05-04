@@ -21,6 +21,6 @@ nodes:
 software:
   box: debian/bullseye64
   calico: 3.29.3
-  kubernetes: 1.32.0-*
+  kubernetes: 1.31.0-*
   k9s: v0.50.4
   helm: v3.17.3

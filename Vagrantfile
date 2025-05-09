@@ -19,8 +19,11 @@ SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.provider :libvirt do |libvirt|
     libvirt.storage_pool_name = settings["storage"]["pool_name"] # Don't forget to create the pool first via virsh
+    libvirt.memorybacking :access, :mode => "shared"
   end
-
+  
+  config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+  
   config.vm.provision "shell", env: { "IP_NW" => IP_NW, "IP_START" => IP_START, "NUM_WORKER_NODES" => NUM_WORKER_NODES }, inline: <<-SHELL
     echo "$IP_NW$((IP_START)) controlplane" >> /etc/hosts
     for i in `seq 1 ${NUM_WORKER_NODES}`; do
@@ -41,7 +44,8 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
 
   config.vm.define "master" do |master|
-    master.vm.box = settings["software"]["box"]
+    master.vm.box = settings["software"]["box"]["name"]
+    master.vm.box_version = settings["software"]["box"]["version"]
     master.vm.hostname = "master-node"
     master.vm.network "private_network", ip: settings["network"]["control_ip"]
     master.vm.network "forwarded_port", guest: 6443, host: 6443
@@ -52,7 +56,7 @@ Vagrant.configure("2") do |config|
     end
 
     #master.vm.provision "file", source: "./services/dashboard-bridge.service", destination: "/etc/systemd/system/dashboard-bridge.service"
-    master.vm.provision "shell", inline: $init_services_script
+    #master.vm.provision "shell", inline: $init_services_script
     master.vm.provision "shell",
       env: {
         "CALICO_VERSION" => settings["software"]["calico"],
@@ -67,7 +71,8 @@ Vagrant.configure("2") do |config|
 
   (1..NUM_WORKER_NODES).each do |i|
      config.vm.define "node0#{i}" do |node|
-     node.vm.box = settings["software"]["box"]
+     node.vm.box = settings["software"]["box"]["name"]
+     node.vm.box_version = settings["software"]["box"]["version"]
      node.vm.hostname = "worker-node0#{i}"
      #node.vm.network "private_network", ip: "10.10.19.1#{i}"
      node.vm.network "private_network", ip: "#{IP_NW}#{i}"

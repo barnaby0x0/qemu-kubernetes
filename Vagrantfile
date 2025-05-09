@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
     libvirt.memorybacking :access, :mode => "shared"
   end
   
-  config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+  config.vm.synced_folder "./", "/vagrant", type: "virtiofs", mount_options: ["uid=1000", "gid=1000"]
   
   config.vm.provision "shell", env: { "IP_NW" => IP_NW, "IP_START" => IP_START, "NUM_WORKER_NODES" => NUM_WORKER_NODES }, inline: <<-SHELL
     echo "$IP_NW$((IP_START)) controlplane" >> /etc/hosts

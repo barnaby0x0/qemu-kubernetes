@@ -26,15 +26,15 @@ else
 fi
 
 cp -i /etc/kubernetes/admin.conf $config_path/config
+chown 1000:1000 $config_path/config
 touch $config_path/join.sh
 chmod +x $config_path/join.sh
 
 join_command=$(kubeadm token create --print-join-command)
 echo "sudo $join_command" > $config_path/join.sh
-# kubeadm token create --print-join-command > $config_path/join.sh
+chown 1000:1000 $config_path/join.sh
 
 # Install Calico Network Plugin
-
 curl https://raw.githubusercontent.com/projectcalico/calico/v"${CALICO_VERSION}"/manifests/calico.yaml -O
 
 kubectl apply -f calico.yaml
@@ -45,7 +45,6 @@ mkdir -p /home/vagrant/.kube
 sudo cp -i $config_path/config /home/vagrant/.kube/
 sudo chown 1000:1000 /home/vagrant/.kube/config
 EOF
-
 
 # Install Metrics Server
 kubectl apply -f https://raw.githubusercontent.com/techiescamp/kubeadm-scripts/main/manifests/metrics-server.yaml

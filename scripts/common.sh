@@ -156,7 +156,7 @@ OOMScoreAdjust=-999
 WantedBy=multi-user.target
 EOF'
 
-cat > /etc/crictl.yaml << EOF
+cat | sudo tee /etc/crictl.yaml << EOF
 runtime-endpoint: unix:///run/containerd/containerd.sock
 image-endpoint: unix:///run/containerd/containerd.sock
 timeout: 10

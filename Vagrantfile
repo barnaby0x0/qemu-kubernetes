@@ -25,15 +25,18 @@ Vagrant.configure("2") do |config|
     done
   SHELL
 
-  config.vm.provision "shell",
-    env: {
-      "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
-      "ENVIRONMENT" => settings["environment"],
-      "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
-      "KUBERNETES_VERSION_SHORT" => settings["software"]["kubernetes"][0..3],
-      "OS" => settings["software"]["os"]
-    },
-    path: "scripts/common.sh"
+
+  if settings["software"]["box"]["provision_common"]
+    config.vm.provision "shell",
+      env: {
+        "DNS_SERVERS" => settings["network"]["dns_servers"].join(" "),
+        "ENVIRONMENT" => settings["environment"],
+        "KUBERNETES_VERSION" => settings["software"]["kubernetes"],
+        "KUBERNETES_VERSION_SHORT" => settings["software"]["kubernetes"][0..3],
+        "OS" => settings["software"]["os"]
+      },
+      path: "scripts/common.sh"
+  end
 
   config.ssh.insert_key = false
 

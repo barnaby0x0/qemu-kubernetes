@@ -9,12 +9,6 @@ IP_NW = IP_SECTIONS.captures[0]
 IP_START = Integer(IP_SECTIONS.captures[1])
 NUM_WORKER_NODES = settings["nodes"]["workers"]["count"]
 
-$init_services_script = <<-'SCRIPT'
-sudo cp /vagrant/services/dashboard-bridge.service /etc/systemd/system && \
-  sudo systemctl daemon-reload && \
-  sudo systemctl enable --now dashboard-bridge.service
-SCRIPT
-
 
 Vagrant.configure("2") do |config|
   config.vm.provider :libvirt do |libvirt|
@@ -55,8 +49,6 @@ Vagrant.configure("2") do |config|
       libvirt.cpus = settings["nodes"]["control"]["cpu"]
     end
 
-    #master.vm.provision "file", source: "./services/dashboard-bridge.service", destination: "/etc/systemd/system/dashboard-bridge.service"
-    #master.vm.provision "shell", inline: $init_services_script
     master.vm.provision "shell",
       env: {
         "CALICO_VERSION" => settings["software"]["calico"],

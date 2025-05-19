@@ -1,0 +1,15 @@
+{
+  "name": "k8s",
+  "versions": [
+    {
+      "version": "1.0.3",
+      "providers": [
+        {
+          "name": "libvirt",
+          "url": "file:///home/user/Documents/Workspace/vagrant/virt/kubernetes/output-k8s/package.box"
+        }
+      ]
+    }
+  ]
+}
+

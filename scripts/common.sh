@@ -16,8 +16,16 @@ DEBIAN_FRONTEND=noninteractive sudo apt-get upgrade -y
 echo "=== System update completed at $(date) ==="
 
 echo "=== Installing utilities at $(date) ==="
-DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -y curl net-tools vim netcat-openbsd
+DEBIAN_FRONTEND=noninteractive sudo apt-get install --no-install-recommends -y curl net-tools vim netcat-openbsd tmux socat
 echo "=== Utilities installed at $(date) ==="
+
+
+## Install ETCD tools
+curl -fLo "etcd.tar.gz" "https://github.com/etcd-io/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz"
+tar xvzf etcd.tar.gz && \
+  sudo cp etcd-v${ETCD_VERSION}-linux-amd64/etcdctl /usr/local/bin/ && \
+  sudo cp etcd-v${ETCD_VERSION}-linux-amd64/etcdutl /usr/local/bin/ && \
+  rm -fr etcd-v${ETCD_VERSION}-linux-amd64 && rm -f etcd.tar.gz
 
 ## DNS Setting
 #echo "=== Configuring DNS at $(date) ==="

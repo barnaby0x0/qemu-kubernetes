@@ -61,9 +61,7 @@ wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && \
   sudo mv linux-amd64/helm /bin/helm && \
   rm -fr helm-${HELM_VERSION}-linux-amd64.tar.gz linux-amd64
 )
-# Install socat
-sudo apt-get install -y socat
 
 # Install Kubernetes dashboard
-helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+#helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+#helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard

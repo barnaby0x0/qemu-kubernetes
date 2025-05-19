@@ -23,7 +23,7 @@ software:
     #name: generic/debian12
     #version: 4.3.12
     name: k8s # have to be built before !
-    version: 1.0.0
+    version: 1.0.3
     provision_common: false
   calico: 3.29.3
   kubernetes: 1.32.0-*

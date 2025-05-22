@@ -16,14 +16,14 @@ nodes:
     memory: 4096
   workers:
     count: 1
-    cpu: 1
+    cpu: 2
     memory: 2048
 software:
   box: 
     #name: generic/debian12
     #version: 4.3.12
     name: k8s # have to be built before !
-    version: 1.0.3
+    version: 1.0.4
     provision_common: false
   calico: 3.29.3
   kubernetes: 1.32.0-*

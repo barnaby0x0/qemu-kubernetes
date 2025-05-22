@@ -2,7 +2,7 @@
   "name": "k8s",
   "versions": [
     {
-      "version": "1.0.3",
+      "version": "1.0.4",
       "providers": [
         {
           "name": "libvirt",
